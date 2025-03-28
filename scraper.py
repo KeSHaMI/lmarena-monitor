@@ -58,6 +58,9 @@ def scrape_leaderboard(headless=True, debug=False):
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
+    options.add_argument("--remote-debugging-port=9222")  # Fix DevToolsActivePort error
+    options.add_argument("--disable-gpu")  # Disable GPU acceleration
+    options.add_argument("--disable-features=VizDisplayCompositor")  # Disable GPU compositing
     
     # Disable automation flags
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -285,7 +288,7 @@ if __name__ == "__main__":
     
     # Test the scraper with debug mode and visible browser
     print("Running scraper in debug mode with visible browser")
-    result = scrape_with_retry(max_retries=3, headless=False, debug=False)
+    result = scrape_with_retry(max_retries=3, headless=True, debug=False)
     if result:
         print(json.dumps(result, indent=2))
     else:
