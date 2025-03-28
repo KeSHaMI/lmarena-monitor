@@ -4,8 +4,18 @@
 # Get the absolute path to the project directory
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Get the absolute path to the Python executable
-PYTHON_PATH="$(which python3)"
+# Check if virtual environment exists
+if [ -d "$PROJECT_DIR/venv" ]; then
+    # Use the Python executable from the virtual environment
+    PYTHON_PATH="$PROJECT_DIR/venv/bin/python"
+    echo "Using Python from virtual environment: $PYTHON_PATH"
+else
+    # Fall back to system Python if venv doesn't exist
+    PYTHON_PATH="$(which python3)"
+    echo "Virtual environment not found, using system Python: $PYTHON_PATH"
+    echo "It's recommended to set up a virtual environment for this project."
+    echo "Run: python3 -m venv venv"
+fi
 
 # Create the cron job line
 CRON_LINE="0 * * * * cd $PROJECT_DIR && $PYTHON_PATH $PROJECT_DIR/monitor.py >> $PROJECT_DIR/data/cron.log 2>&1"

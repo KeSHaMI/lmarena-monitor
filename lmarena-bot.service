@@ -1,0 +1,16 @@
+[Unit]
+Description=LM Arena Monitor Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/code/lmarena-monitor
+ExecStart=/root/code/lmarena-monitor/venv/bin/python /root/code/lmarena-monitor/bot.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
